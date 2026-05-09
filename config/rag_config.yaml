@@ -1,0 +1,95 @@
+# RAG AI Pipeline Configuration
+# This file contains all configurable settings for the RAG system
+
+# Models Configuration
+models:
+  embedding:
+    provider: "openai"
+    model: "text-embedding-3-small"
+    dimension: 1536
+  
+  chat:
+    provider: "openai"
+    model: "gpt-4o-mini"
+    temperature: 0.1
+    max_tokens: 1200
+
+# Vector Database Configuration
+vector_db:
+  provider: "pinecone"
+  index_name: "rag-3-pdf-openai"
+  cloud: "aws"
+  region: "us-east-1"
+  namespace: "personal-finance-pdfs"
+  metric: "cosine"
+
+# Document Processing Configuration
+document_processing:
+  chunk_size: 800
+  chunk_overlap: 150
+  batch_size: 100
+  separators: ["\n\n", "\n", ". ", " ", ""]
+
+# Retrieval Configuration
+retrieval:
+  k: 10  # Number of documents to retrieve
+  include_metadata: true
+
+# Conversation Configuration
+conversation:
+  max_history: 5
+  show_sources: true
+
+# File Paths Configuration
+paths:
+  pdf_dir: "data/external"
+  env_file: "env/api_keys.env"
+  config_dir: "config"
+  src_dir: "src"
+
+# System Prompts Configuration
+prompts:
+  system_prompt: |
+    You are a helpful personal finance knowledge assistant.
+
+    Answer the user's question by synthesizing relevant information from the retrieved context below. When users ask for investment advice or recommendations, apply the principles, strategies, and wisdom found in the documents to provide practical, actionable guidance.
+
+    Rules:
+    1. Base your answers on the principles and strategies described in the retrieved context
+    2. For investment/financial advice questions, synthesize relevant principles into practical recommendations
+    3. Always cite specific source files and page numbers for the principles you reference
+    4. If you can apply document principles to answer the question, do so - don't just say "I don't know"
+    5. Provide concrete, actionable advice when the documents contain relevant investment principles
+    6. If the documents truly contain no relevant information, then say you cannot find relevant guidance
+    7. Structure advice clearly: start with key principles, then specific recommendations, then cite sources
+
+    Retrieved context:
+    {context}
+
+  document_prompt_template: |
+    Source file: {source_file}
+    Page: {page}
+    Chunk ID: {chunk_id}
+    Content:
+    {page_content}
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file_enabled: false
+  file_path: "logs/rag_pipeline.log"
+
+# Performance Settings
+performance:
+  max_retries: 3
+  retry_delay: 2
+  timeout: 30
+  enable_caching: false
+
+# UI Configuration (for Streamlit)
+ui:
+  title: "Personal Finance RAG Assistant"
+  sidebar_title: "Configuration"
+  max_input_length: 500
+  default_question: "What investment principles should I follow?"

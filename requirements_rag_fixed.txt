@@ -1,0 +1,50 @@
+# RAG AI Pipeline Dependencies
+# Enhanced requirements with version pinning for stability
+
+# Core Dependencies
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+pyyaml>=6.0.0
+
+# Vector Database
+pinecone>=3.0.0
+
+# OpenAI
+openai>=1.0.0
+
+# LangChain Core
+langchain>=0.1.0
+langchain-community>=0.0.20
+langchain-core>=0.1.0
+langchain-text-splitters>=0.0.1
+langchain-openai>=0.0.5
+
+# Document Processing
+pypdf>=4.0.0
+
+# Web Interface
+streamlit>=1.28.0
+
+# Data Science (Optional)
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Development Dependencies (Optional)
+jupyter>=1.0.0
+ipykernel>=6.20.0
+
+# Logging and Monitoring (Optional)
+structlog>=23.0.0
+
+# Testing (Optional)
+pytest>=7.0.0
+pytest-cov>=4.0.0
+openai
+langchain
+langchain-community
+langchain-core
+langchain-text-splitters
+langchain-openai
+pypdf
+python-dotenv
+pydantic
