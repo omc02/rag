@@ -74,15 +74,29 @@ PINECONE_API_KEY=your_pinecone_key
 
 Place PDF files in `data/external/`
 
-### 5. Run with One Command
+### 5. Set Up Virtual Environment
+
+Create and activate a virtual environment:
+```bash
+python -m venv .venv
+.venv\Scripts\activate  # Windows
+```
+
+### 6. Run the Application
 
 **Option A: Streamlit App (Recommended)**
+
+⚠️ **Important**: Use Python module execution to avoid launcher issues:
 ```bash
-streamlit run streamlit_app_new.py
+# Correct way (use Python module):
+python -m streamlit run streamlit_app_new.py
+
+# If using virtual environment directly:
+".venv\Scripts\python.exe" -m streamlit run streamlit_app_new.py
 ```
 
 **Option B: Jupyter Notebook**
-- Open `main/v2_main.ipynb`
+- Open `main/v2_main.ipynb` or `notebooks/v2_main.ipynb`
 - Run the enhanced configuration cells
 - Set `USE_NEW_PIPELINE = True`
 
@@ -98,6 +112,46 @@ pipeline.full_setup()  # One command setup!
 response = pipeline.ask_question("What is value investing?")
 print(response['answer'])
 ```
+
+## 🔧 Troubleshooting
+
+### Streamlit Launcher Issues
+
+**Problem**: `Fatal error in launcher: Unable to create process using [path to python.exe]`
+
+**Solution**: Always run Streamlit as a Python module instead of using the launcher:
+```bash
+# ✅ Correct
+python -m streamlit run streamlit_app_new.py
+
+# ❌ Avoid (can have launcher issues)
+streamlit run streamlit_app_new.py
+```
+
+### Legacy File Compatibility
+
+This project maintains compatibility with older scripts and notebooks that reference `streamlit_app.py`. A redirect file automatically forwards requests to `streamlit_app_new.py` with a warning message.
+
+### Session State Widget Errors
+
+If you encounter widget key modification errors in Streamlit, avoid programmatically modifying `st.session_state` for widget keys after creating the widget. Let users manually clear inputs or use form submission patterns instead.
+
+## 📁 File Organization
+
+### Current Files
+- `streamlit_app_new.py` - **Main Streamlit application**
+- `streamlit_app.py` - Redirect file for legacy compatibility
+- `legacy/` - Contains backup versions and legacy implementations
+- `notebooks/` - Jupyter notebooks with different versions
+- `src/` - Modular source code architecture
+
+### Archive Organization
+Legacy files are organized in the `legacy/` folder:
+- `streamlit_app_legacy.py` - Original implementation  
+- `streamlit_app_backup.py` - Backup version
+- `streamlit_app.py` (in legacy) - Previous version
+
+**Best Practice**: When adding new versions, move old implementations to `legacy/` with descriptive names and timestamps.
 
 ## 🎯 Configuration Examples
 
