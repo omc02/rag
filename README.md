@@ -185,7 +185,173 @@ prompts:
     [Your custom prompt here]
 ```
 
-## 🔄 Migration from Legacy
+## � How RAG Works: Complete Process Flow
+
+### RAG (Retrieval-Augmented Generation) Architecture
+
+This system combines document retrieval with AI language models to answer questions based on your specific documents. Here's how it works step-by-step:
+
+```mermaid
+graph LR
+    A["📄 Load Documents<br/>(PDFs from data/external/)"] 
+    B["✂️ Split into Chunks<br/>(Document Splitter)"]
+    C["🔢 Generate Embeddings<br/>(OpenAI Embeddings)"]
+    D["📦 Store in Vector DB<br/>(Pinecone)"]
+    E["❓ User Question"]
+    F["🔍 Generate Query Embedding<br/>(Same Embeddings Model)"]
+    G["🎯 Retrieve Similar Docs<br/>(Semantic Search in Pinecone)"]
+    H["📋 Format Context<br/>(Top K Documents)"]
+    I["🤖 LLM Generation<br/>(GPT-4 with Context)"]
+    J["✅ Answer with Citations"]
+    
+    A --> B
+    B --> C
+    C --> D
+    E --> F
+    F --> G
+    G --> H
+    D -.-> G
+    H --> I
+    I --> J
+    
+    style A fill:#e1f5ff
+    style B fill:#e1f5ff
+    style C fill:#fff3e0
+    style D fill:#fff3e0
+    style E fill:#f3e5f5
+    style F fill:#f3e5f5
+    style G fill:#f3e5f5
+    style H fill:#c8e6c9
+    style I fill:#c8e6c9
+    style J fill:#fce4ec
+```
+
+### Step-by-Step Explanation
+
+#### **Phase 1: Document Preparation (One-time Setup)**
+
+**Step 1: Load Documents**
+- Your PDF files are loaded from `data/external/` directory
+- The system reads all PDF content into memory
+- Example: Load "Investment_Guide.pdf", "Stock_Basics.pdf", etc.
+
+**Step 2: Split Documents into Chunks**
+- Large documents are split into smaller, manageable pieces (chunks)
+- Default: 1000 characters per chunk, 200 character overlap for context preservation
+- Overlapping ensures important information at chunk boundaries isn't lost
+```python
+# Configuration for splitting
+chunk_size: 1000      # Characters per chunk
+chunk_overlap: 200    # Overlap between chunks
+```
+
+**Step 3: Generate Embeddings**
+- Each chunk is converted into a numerical vector representation using OpenAI's embedding model
+- Embeddings capture the semantic meaning of text (similar content has similar vectors)
+- Example: "stock portfolio" and "investment collection" get similar embeddings
+```python
+# Embedding model configuration
+embedding_model: "text-embedding-3-large"  # 3,072 dimensions
+```
+
+**Step 4: Store in Vector Database (Pinecone)**
+- All embeddings and their source documents are stored in Pinecone
+- Pinecone enables fast similarity search across millions of vectors
+- Documents are indexed and ready for retrieval
+```
+Pinecone Index Structure:
+├── Vector 1 (chunk 1) → metadata: {source: pdf1, page: 5}
+├── Vector 2 (chunk 2) → metadata: {source: pdf1, page: 6}
+├── Vector 3 (chunk 3) → metadata: {source: pdf2, page: 2}
+...
+```
+
+#### **Phase 2: Question Answering (At Query Time)**
+
+**Step 5: User Asks a Question**
+- User inputs a question via the Streamlit interface
+- Example: "What is value investing?"
+
+**Step 6: Embed the User Question**
+- The same embedding model converts the question into a vector
+- Critical: Using the **same embedding model** ensures comparability
+- The question vector now lives in the same 3,072-dimensional space as document chunks
+
+**Step 7: Retrieve Similar Documents**
+- Semantic search in Pinecone finds chunks with embeddings most similar to the question
+- Similarity is measured using vector distance (cosine similarity)
+- Default: Retrieves top 10 most relevant chunks
+```python
+# Retrieval configuration
+k: 10  # Number of documents to retrieve
+search_type: "semantic"  # Semantic similarity search
+```
+
+**Step 8: Format as Context**
+- Retrieved chunks are formatted into a clear, readable context
+- Metadata is preserved (source, page number)
+- Creates the "context" that will guide the LLM's answer
+```
+Formatted Context:
+---
+Source: Investment_Guide.pdf (Page 15)
+Value investing is the practice of buying securities that appear 
+underpriced relative to their intrinsic value...
+
+Source: Stock_Basics.pdf (Page 42)
+Warren Buffett popularized value investing as a disciplined 
+approach to long-term wealth building...
+---
+```
+
+**Step 9: Generate Answer with LLM**
+- The question and retrieved context are sent to GPT-4
+- The LLM system prompt instructs it to answer based on the documents
+- LLM synthesizes information from multiple chunks into a coherent answer
+```python
+# LLM Configuration
+model: "gpt-4o"
+temperature: 0.1  # Lower = more factual, less creative
+max_tokens: 1200  # Allows detailed answers
+```
+
+**Step 10: Return Answer**
+- The LLM generates an answer grounded in your documents
+- Answer includes references to source documents
+- User gets practical, document-backed information
+```
+Answer Example:
+"Value investing is the practice of buying securities that appear 
+underpriced relative to their intrinsic value. Based on Investment_Guide.pdf 
+(Page 15), this approach focuses on fundamental analysis rather than market trends..."
+```
+
+### Why RAG is Powerful
+
+| Aspect | Without RAG | With RAG |
+|--------|------------|----------|
+| **Knowledge Source** | Trained model (outdated) | Your specific documents (current) |
+| **Hallucinations** | Can make up false information | Grounded in actual documents |
+| **Customization** | Generic answers | Domain-specific answers |
+| **Transparency** | "Black box" responses | Cited sources visible |
+| **Cost** | Expensive fine-tuning | Efficient retrieval + LLM |
+
+### Example Workflow
+
+```python
+# 1. One-time setup
+from src.pipeline.rag_pipeline import create_pipeline
+
+pipeline = create_pipeline()
+pipeline.full_setup()  # Loads, embeds, and stores all documents
+
+# 2. Question answering (repeatable)
+result = pipeline.ask_question("What is value investing?")
+print(result['answer'])           # The AI answer
+print(result['sources'])          # Which documents were used
+```
+
+## �🔄 Migration from Legacy
 
 If you have the old version:
 
