@@ -1,540 +1,220 @@
-# 🤖 RAG AI Personal Finance Assistant
+# Enhanced RAG AI Pipeline
 
-*A modern, configuration-driven RAG pipeline for intelligent financial advice*
+## 🚀 What's New
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://python.org)
-[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-green.svg)](https://openai.com)
-[![Pinecone](https://img.shields.io/badge/Pinecone-Vector%20DB-orange.svg)](https://pinecone.io)
-[![Streamlit](https://img.shields.io/badge/Streamlit-App-red.svg)](https://streamlit.io)
+This project has been enhanced with a **modular, configuration-driven architecture** that makes it easier to maintain, customize, and extend.
 
-## 🎯 Project Overview
+### Key Improvements
 
-This project implements a **state-of-the-art Retrieval-Augmented Generation (RAG) pipeline** designed to serve as an intelligent personal finance knowledge assistant. Built with a modern, modular architecture, it combines advanced vector search technology with OpenAI's language models to provide accurate, context-aware responses to financial questions.
+- ✅ **YAML Configuration**: All settings centralized in `config/rag_config.yaml`
+- ✅ **Modular Architecture**: Organized code in `src/` directory with clear separation
+- ✅ **Type Safety**: Configuration validation with Pydantic models
+- ✅ **Better Error Handling**: Structured logging and error management
+- ✅ **Enhanced Streamlit App**: Improved UI with configuration display
+- ✅ **Pipeline Orchestration**: Single command to set up the entire system
 
-### 🌟 What Makes This Special
-
-- **🔧 Configuration-Driven**: All settings in YAML - no code changes needed
-- **🏗️ Modular Architecture**: Professional software design patterns
-- **⚡ One-Command Setup**: `pipeline.full_setup()` and you're ready
-- **🛡️ Type Safety**: Pydantic validation prevents configuration errors
-- **🔄 Backward Compatible**: Legacy code still works alongside new features
-
-## 🚀 Key Features
-
-### **Enhanced Architecture**
-- **🏭 Factory Patterns**: Clean model and component creation
-- **📦 Modular Design**: Organized in logical modules for easy maintenance
-- **⚙️ YAML Configuration**: Centralized settings for all components
-- **🧪 Built-in Testing**: Comprehensive test suite included
-
-### **Advanced RAG Capabilities**
-- **📄 Smart PDF Processing**: Automated extraction and intelligent chunking
-- **🔍 Semantic Search**: OpenAI text-embedding-3-small (1536 dimensions)
-- **🗄️ Vector Database**: Pinecone serverless for blazing-fast retrieval
-- **🤖 GPT-4o Integration**: Latest OpenAI models with fine-tuned prompts
-- **🔗 LangChain Powered**: Professional RAG chain implementation
-
-### **User Experience**
-- **🖥️ Modern Streamlit UI**: Clean, responsive interface
-- **📓 Enhanced Notebooks**: Both legacy and modern approaches
-- **📊 Real-time Monitoring**: Configuration display and system stats
-- **🎯 Intelligent Responses**: Context-aware financial advice
-
-## 🛠️ Technology Stack
-
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| **Backend** | Python 3.8+ | Core runtime |
-| **RAG Framework** | LangChain | Pipeline orchestration |
-| **LLM** | OpenAI GPT-4o/4o-mini | Text generation |
-| **Embeddings** | OpenAI text-embedding-3-small | Semantic search |
-| **Vector DB** | Pinecone | Document storage & retrieval |
-| **UI** | Streamlit | Web interface |
-| **Config** | PyYAML + Pydantic | Settings management |
-| **Environment** | python-dotenv | Secrets management |
-
-## ⚡ Quick Start
-
-### 1️⃣ Installation
-
-```bash
-# Clone the repository
-git clone <your-repo-url>
-cd rag-ai-pipeline
-
-# Install dependencies
-pip install -r requirements_rag_fixed.txt
-```
-
-### 2️⃣ Configuration
-
-1. **Set up API keys** in `env/api_keys.env`:
-   ```env
-   OPENAI_API_KEY=your_openai_key_here
-   PINECONE_API_KEY=your_pinecone_key_here
-   ```
-
-2. **Customize settings** in `config/rag_config.yaml`:
-   ```yaml
-   models:
-     embedding_model: "text-embedding-3-small"
-     chat_model: "gpt-4o-mini"
-     temperature: 0.1
-   
-   retrieval:
-     k: 10  # Number of documents to retrieve
-   
-   document_processing:
-     chunk_size: 1000
-     chunk_overlap: 200
-   ```
-
-3. **Add your PDFs** to `data/external/`
-
-### 3️⃣ Test Your Setup
-
-```bash
-python test_config.py
-```
-
-### 4️⃣ Launch the Application
-
-**🎨 Streamlit Web App (Recommended)**
-```bash
-streamlit run streamlit_app.py
-```
-
-**📓 Jupyter Notebook**
-```python
-# In main/v2_main.ipynb, set:
-USE_NEW_PIPELINE = True
-# Then run the enhanced cells
-```
-
-**🐍 Python Script**
-```python
-from src.pipeline.rag_pipeline import create_pipeline
-
-# One-command setup!
-pipeline = create_pipeline()
-pipeline.full_setup()
-
-# Ask questions
-response = pipeline.ask_question("What is value investing?")
-print(response['answer'])
-```
-
-## 🚀 How to Run - Step by Step
-
-### **Method 1: Streamlit Web Interface (Easiest)**
-
-1. **Open terminal/command prompt** in the project directory
-2. **Test your setup** (recommended first):
-   ```bash
-   python test_config.py
-   ```
-3. **Launch the app**:
-   ```bash
-   streamlit run streamlit_app.py
-   ```
-4. **Open your browser** to the URL shown (usually `http://localhost:8501`)
-5. **Start asking questions** about personal finance!
-
-### **Method 2: Jupyter Notebook (Interactive)**
-
-1. **Start Jupyter**:
-   ```bash
-   jupyter notebook
-   ```
-2. **Open** `main/v2_main.ipynb`
-3. **Set the flag** in the first cell:
-   ```python
-   USE_NEW_PIPELINE = True
-   ```
-4. **Run all cells** to see both legacy and enhanced approaches
-
-### **Method 3: Python Script (Programmatic)**
-
-```python
-# Create a simple script (e.g., quick_test.py)
-from src.pipeline.rag_pipeline import create_pipeline
-
-# Initialize
-pipeline = create_pipeline()
-pipeline.full_setup()
-
-# Ask a question
-response = pipeline.ask_question("What is value investing according to Warren Buffett?")
-print("Answer:", response['answer'])
-print("Sources:", [doc.metadata.get('source_file') for doc in response.get('sources', [])])
-```
-
-### **Troubleshooting Run Issues**
-
-| Issue | Solution |
-|-------|----------|
-| **Module not found** | Run: `pip install -r requirements_rag_fixed.txt` |
-| **API key errors** | Check `env/api_keys.env` file exists with valid keys |
-| **No documents found** | Add PDF files to `data/external/` directory |
-| **Config errors** | Run: `python test_config.py` to diagnose |
-| **Port already in use** | Use: `streamlit run streamlit_app.py --server.port 8502` |
-
-## 📁 Project Structure
+## 📁 New Project Structure
 
 ```
 rag-ai-pipeline/
-├── 📂 config/
-│   └── rag_config.yaml          # 🎯 Centralized configuration
-├── 📂 src/                      # 🏗️ Modular source code
-│   ├── 📂 config/
-│   │   └── config_loader.py     # Configuration management
-│   ├── 📂 models/
-│   │   └── llm_factory.py       # LLM creation factory
-│   ├── 📂 data/
-│   │   ├── document_loader.py   # PDF processing
-│   │   └── text_splitter.py     # Intelligent chunking
-│   ├── 📂 vector_db/
-│   │   └── pinecone_client.py   # Vector database client
-│   ├── 📂 retrieval/
-│   │   └── retrievers.py        # Custom retrievers
-│   ├── 📂 chains/
-│   │   └── rag_chain.py         # RAG chain logic
-│   ├── 📂 pipeline/
-│   │   └── rag_pipeline.py      # 🌟 Main orchestrator
-│   └── 📂 utils/
-│       ├── logger.py            # Logging utilities
-│       └── helpers.py           # Helper functions
-├── 📂 data/external/            # 📄 Your PDF documents
-├── 📂 env/                      # 🔐 Environment variables
-│   └── api_keys.env
-├── 📂 main/
-│   └── v2_main.ipynb            # 📓 Enhanced notebook
-├── streamlit_app_new.py         # 🎨 Modern web interface
-├── test_config.py               # 🧪 System tester
-├── requirements_rag_fixed.txt   # 📦 Dependencies
-└── README.md                    # 📖 This file
+├── config/
+│   └── rag_config.yaml              # 🆕 Centralized configuration
+├── src/                             # 🆕 Modular source code
+│   ├── config/
+│   │   ├── __init__.py
+│   │   └── config_loader.py         # Configuration management
+│   ├── models/
+│   │   └── llm_factory.py          # LLM creation factory
+│   ├── data/
+│   │   ├── document_loader.py      # PDF loading
+│   │   └── text_splitter.py        # Document chunking
+│   ├── vector_db/
+│   │   └── pinecone_client.py      # Pinecone operations
+│   ├── retrieval/
+│   │   └── retrievers.py           # Custom retrievers
+│   ├── chains/
+│   │   └── rag_chain.py            # RAG chain implementation
+│   ├── pipeline/
+│   │   └── rag_pipeline.py         # 🌟 Main orchestrator
+│   └── utils/
+│       └── logger.py               # Logging utilities
+├── data/external/                   # Your PDF files
+├── env/api_keys.env                # API keys
+├── main/v2_main.ipynb              # 🔄 Enhanced notebook
+├── streamlit_app_new.py            # 🆕 Enhanced Streamlit app
+├── requirements_rag_fixed.txt      # 🔄 Complete dependencies
+└── README_ENHANCED.md              # This file
 ```
 
-## 🎛️ Configuration Guide
+## 🔧 Quick Start with Enhanced System
 
-The power of this system lies in its configurability. Here are key settings you can adjust:
+### 1. Install Dependencies
 
-### **Model Settings**
-```yaml
-models:
-  embedding_model: "text-embedding-3-small"  # or text-embedding-3-large
-  embedding_dimension: 1536
-  chat_model: "gpt-4o-mini"                  # or gpt-4o for more power
-  temperature: 0.1                           # 0.0-1.0 (creativity level)
-  max_tokens: 1200                           # Response length limit
-```
-
-### **Retrieval Tuning**
-```yaml
-retrieval:
-  k: 10                    # Documents to retrieve (5-20 recommended)
-  score_threshold: 0.7     # Similarity threshold (0.0-1.0)
-  
-document_processing:
-  chunk_size: 1000         # Character per chunk (500-2000)
-  chunk_overlap: 200       # Overlap between chunks (100-300)
-```
-
-### **System Behavior**
-```yaml
-prompts:
-  system_prompt: |
-    You are a knowledgeable financial advisor...
-    [Customize your system prompt here]
-    
-conversation:
-  memory_length: 5         # Number of previous exchanges to remember
-  
-paths:
-  pdf_directory: "data/external"  # Where to find your PDFs
-```
-
-## 🚀 Usage Examples
-
-### **Basic Question Answering**
-```python
-from src.pipeline.rag_pipeline import create_pipeline
-
-pipeline = create_pipeline()
-pipeline.full_setup()
-
-# Financial advice
-response = pipeline.ask_question("How do I evaluate a stock using P/E ratios?")
-print(response['answer'])
-print(f"Sources: {response.get('sources', [])}")
-```
-
-### **Batch Processing**
-```python
-questions = [
-    "What is diversification?",
-    "How does compound interest work?", 
-    "What are the risks of leverage?"
-]
-
-for question in questions:
-    response = pipeline.ask_question(question)
-    print(f"Q: {question}")
-    print(f"A: {response['answer'][:200]}...")
-    print("---")
-```
-
-### **Testing Retrieval**
-```python
-# See what documents are retrieved for a query
-results = pipeline.test_retrieval("value investing", k=5)
-for i, result in enumerate(results):
-    print(f"{i+1}. {result['source']} (Score: {result['score']:.3f})")
-    print(f"   {result['content'][:150]}...")
-```
-
-## 📊 Performance & Monitoring
-
-The system includes built-in monitoring and optimization features:
-
-### **System Stats**
-- **Response Time**: Average query processing time
-- **Document Coverage**: How many of your PDFs are being used
-- **Retrieval Quality**: Similarity scores and source diversity
-- **Token Usage**: OpenAI API consumption tracking
-
-### **Optimization Tips**
-
-| Issue | Solution |
-|-------|----------|
-| Slow responses | Reduce `k` value or chunk size |
-| Poor answers | Increase `k` or lower score_threshold |
-| Generic responses | Improve system prompt or add more documents |
-| High API costs | Use gpt-4o-mini, reduce max_tokens |
-
-## 🧪 Testing & Quality Assurance
-
-### **Run the Test Suite**
 ```bash
-# Full system test
-python test_config.py
-
-# Test specific components
-python -m src.config.config_loader
-python -m src.pipeline.rag_pipeline
-```
-
-### **Manual Testing Queries**
-The system works best with financial questions like:
-- "What is the difference between growth and value investing?"
-- "How should I diversify my portfolio?"
-- "What are the key financial ratios for stock analysis?"
-- "Explain the concept of risk-adjusted returns"
-
-## 🔧 Troubleshooting
-
-### **Common Issues**
-
-| Problem | Cause | Solution |
-|---------|-------|----------|
-| `ModuleNotFoundError` | Missing dependencies | `pip install -r requirements_rag_fixed.txt` |
-| API key errors | Invalid or missing keys | Check `env/api_keys.env` |
-| No PDF documents found | Empty data directory | Add PDFs to `data/external/` |
-| Configuration errors | Invalid YAML syntax | Run `python test_config.py` |
-| Poor answer quality | Insufficient context | Increase `k` in config, add more documents |
-
-### **Debug Mode**
-Enable detailed logging by setting in your config:
-```yaml
-logging:
-  level: DEBUG
-  file: "rag_pipeline.log"
-```
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how to get started:
-
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-3. **Follow the modular structure**: Add new components in appropriate `src/` subdirectories
-4. **Update configuration schema** if adding new settings
-5. **Add tests** for new functionality
-6. **Update documentation**
-7. **Submit a pull request**
-
-### **Development Setup**
-```bash
-# Development dependencies
 pip install -r requirements_rag_fixed.txt
-pip install pytest black flake8
-
-# Run tests
-pytest tests/
-
-# Code formatting
-black src/
-flake8 src/
 ```
 
-## 🗺️ Roadmap
+### 2. Configure Your Settings
 
-### **Upcoming Features**
-- **🌐 Multi-language Support**: Process documents in different languages
-- **🔄 Hybrid Search**: Combine semantic and keyword search
-- **📈 Analytics Dashboard**: Advanced usage and performance metrics
-- **🎯 Fine-tuning**: Custom model training on your documents
-- **🔌 API Endpoint**: REST API for external integrations
-- **📱 Mobile UI**: Responsive design for mobile devices
+Edit `config/rag_config.yaml` to customize:
+- Models (embedding/chat)
+- Retrieval settings
+- Vector database configuration
+- Prompts and behavior
 
-### **Integrations Planned**
-- **📊 Google Sheets**: Direct export of insights
-- **📧 Email Summaries**: Scheduled financial updates  
-- **💬 Slack Bot**: Team-based financial Q&A
-- **🔗 Web Scraping**: Live financial data ingestion
+### 3. Set Up API Keys
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **OpenAI** for GPT-4o and embedding models
-- **Pinecone** for vector database infrastructure
-- **LangChain** for RAG framework
-- **Streamlit** for the beautiful web interface
-- **The open-source community** for all the amazing tools
-
----
-
-## 📞 Support
-
-Having issues? Here's how to get help:
-
-1. **📖 Check this README** for common solutions
-2. **🧪 Run the test suite**: `python test_config.py`
-3. **🐛 Check the logs** for detailed error information
-4. **💬 Open an issue** on GitHub with:
-   - Your configuration file (without API keys)
-   - Error messages
-   - Steps to reproduce
-
----
-
-<div align="center">
-
-**🚀 Ready to revolutionize your financial knowledge management?**
-
-*Get started in under 5 minutes with our configuration-driven RAG pipeline!*
-
-</div>
-     chat_model: "gpt-4o-mini"
-     temperature: 0.1
-   
-   retrieval:
-     k: 10  # Number of documents to retrieve
-   
-   document_processing:
-     chunk_size: 1000
-     chunk_overlap: 200
-   ```
-
-3. **Add your PDFs** to `data/external/`
-
-### 3️⃣ Test Your Setup
-
-```bash
-python test_config.py
+Create `env/api_keys.env`:
+```
+OPENAI_API_KEY=your_openai_key
+PINECONE_API_KEY=your_pinecone_key
 ```
 
-### 4️⃣ Launch the Application
+### 4. Add Your Documents
 
-**🎨 Streamlit Web App (Recommended)**
+Place PDF files in `data/external/`
+
+### 5. Run with One Command
+
+**Option A: Streamlit App (Recommended)**
 ```bash
 streamlit run streamlit_app_new.py
 ```
 
-**📓 Jupyter Notebook**
-```python
-# In main/v2_main.ipynb, set:
-USE_NEW_PIPELINE = True
-# Then run the enhanced cells
-```
+**Option B: Jupyter Notebook**
+- Open `main/v2_main.ipynb`
+- Run the enhanced configuration cells
+- Set `USE_NEW_PIPELINE = True`
 
-**🐍 Python Script**
+**Option C: Python Script**
 ```python
 from src.pipeline.rag_pipeline import create_pipeline
 
-# One-command setup!
+# Create and setup pipeline
 pipeline = create_pipeline()
-pipeline.full_setup()
+pipeline.full_setup()  # One command setup!
 
 # Ask questions
 response = pipeline.ask_question("What is value investing?")
 print(response['answer'])
 ```
 
-## Project Structure
+## 🎯 Configuration Examples
 
-```
-rag-ai-pipeline/
-│
-├── data/
-│   └── external/          # PDF documents for ingestion
-│
-├── env/
-│   └── api_keys.env       # Environment variables and API keys
-│
-├── main/
-│   └── main.ipynb         # Main notebook with RAG pipeline implementation
-│
-└── src/
-    └── prompt.py          # Additional source files (if any)
+### Change Models
+```yaml
+# In config/rag_config.yaml
+models:
+  embedding:
+    model: "text-embedding-3-large"  # More accurate
+    dimension: 3072
+  chat:
+    model: "gpt-4o"                  # More powerful
+    temperature: 0.2                 # More creative
 ```
 
-## Usage
+### Adjust Retrieval
+```yaml
+retrieval:
+  k: 15  # Retrieve more documents
+  
+document_processing:
+  chunk_size: 1000    # Larger chunks
+  chunk_overlap: 200  # More overlap
+```
 
-### Running the Pipeline
+### Customize Prompts
+```yaml
+prompts:
+  system_prompt: |
+    You are a specialized financial advisor...
+    [Your custom prompt here]
+```
 
-Execute the `main.ipynb` notebook sequentially to:
+## 🔄 Migration from Legacy
 
-1. **Environment Setup**: Load API keys from `env/api_keys.env`
-2. **Document Loading**: Extract PDF documents from `data/external/` directory
-3. **Text Processing**: Split documents into semantically meaningful chunks
-4. **Embedding Generation**: Create vector embeddings using Hugging Face transformers
-5. **Index Creation**: Initialize or connect to Pinecone index 'ai-bot'
-6. **Document Upsert**: Store embeddings with metadata in Pinecone
-7. **RAG Chain Setup**: Configure retriever and language model
-8. **Query Testing**: Test the system with personal finance questions
+If you have the old version:
 
-### Example Queries
+1. **Keep your existing notebook** - it still works!
+2. **Try the new system** - run the enhanced cells
+3. **Gradually migrate** - use `USE_NEW_PIPELINE = True`
 
-The system can accurately answer questions such as:
-- "Who is Warren Buffett?"
-- "What is a PE ratio and forward PE ratio?"
-- "What is margin of safety?"
-- "How do you value a stock?"
-- "What are financial ratios?"
-- "If I have $100,000, how should I invest in stocks?"
-- "What do you mean by diversification?"
+Both approaches coexist peacefully.
 
-The assistant responds with "I don't know" when information is not available in the loaded documents, ensuring answer reliability.
+## 🛠️ Development
 
-## Contributing
+### Adding New Features
 
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a new Pull Request
+1. **New Models**: Add to `src/models/llm_factory.py`
+2. **New Retrievers**: Add to `src/retrieval/retrievers.py`
+3. **New Configurations**: Add to `config/rag_config.yaml` and `config_loader.py`
 
-## License
+### Testing
 
-[Specify your license here]
+```bash
+# Run the pipeline test
+python -m src.pipeline.rag_pipeline
 
-## Acknowledgments
+# Test configuration loading
+python -m src.config.config_loader
+```
 
-- OpenAI
-- Pinecone
-- LangChain
-- Hugging Face
+## 🎨 Advanced Features
+
+### Custom Vector Database
+Easily switch to Weaviate, Qdrant, etc. by:
+1. Adding new client in `src/vector_db/`
+2. Updating configuration
+3. Creating new retriever
+
+### Hybrid Search
+Combine multiple retrieval methods:
+```python
+from src.retrieval.retrievers import HybridRetriever
+
+hybrid = HybridRetriever([retriever1, retriever2], weights=[0.7, 0.3])
+```
+
+### Caching
+Enable caching in configuration:
+```yaml
+performance:
+  enable_caching: true
+```
+
+## 🐛 Troubleshooting
+
+### "Module not found" errors
+- Make sure you're in the project root directory
+- Check that `src/` directory contains all modules
+- Verify Python path is set correctly
+
+### Configuration errors
+- Validate your YAML syntax
+- Check required sections exist
+- Use the configuration test: `python -m src.config.config_loader`
+
+### API key issues
+- Verify `env/api_keys.env` exists and has correct keys
+- Check file permissions
+
+## 🤝 Contributing
+
+1. **Add features to modular structure**
+2. **Update configuration schema**
+3. **Add tests**
+4. **Update this README**
+
+## 📊 Performance Benefits
+
+| Aspect | Legacy | Enhanced |
+|--------|--------|----------|
+| Setup Time | Manual, error-prone | One command |
+| Configuration | Scattered in code | Centralized YAML |
+| Maintenance | Difficult | Easy |
+| Testing | Manual | Automated |
+| Extensibility | Limited | High |
+
+---
+
+🎉 **The enhanced system maintains 100% backward compatibility while providing a modern, scalable architecture for your RAG pipeline!**
