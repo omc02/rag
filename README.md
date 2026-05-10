@@ -42,7 +42,7 @@ rag-ai-pipeline/
 ├── env/api_keys.env                # API keys
 ├── main/v2_main.ipynb              # 🔄 Enhanced notebook
 ├── streamlit_app_new.py            # 🆕 Enhanced Streamlit app
-├── requirements_rag_fixed.txt      # 🔄 Complete dependencies
+├── requirements.txt                # 🔄 Complete dependencies
 └── README_ENHANCED.md              # This file
 ```
 
@@ -51,7 +51,7 @@ rag-ai-pipeline/
 ### 1. Install Dependencies
 
 ```bash
-pip install -r requirements_rag_fixed.txt
+pip install -r requirements.txt
 ```
 
 ### 2. Configure Your Settings
