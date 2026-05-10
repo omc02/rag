@@ -113,7 +113,11 @@ response = pipeline.ask_question("What is value investing?")
 print(response['answer'])
 ```
 
-## 🔧 Troubleshooting
+## � Video Demo
+
+Watch the demo: [https://youtu.be/lZYLXFzfzCc?si=XJg3sP4bEUS74vNT](https://youtu.be/lZYLXFzfzCc?si=XJg3sP4bEUS74vNT)
+
+## �🔧 Troubleshooting
 
 ### Streamlit Launcher Issues
 
