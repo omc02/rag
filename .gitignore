@@ -3,6 +3,7 @@ env/
 .env
 *.env
 !env/.gitkeep
+*.tex
 
 # Python
 __pycache__/
