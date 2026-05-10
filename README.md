@@ -214,16 +214,16 @@ graph LR
     H --> I
     I --> J
     
-    style A fill:#e1f5ff
-    style B fill:#e1f5ff
-    style C fill:#fff3e0
-    style D fill:#fff3e0
-    style E fill:#f3e5f5
-    style F fill:#f3e5f5
-    style G fill:#f3e5f5
-    style H fill:#c8e6c9
-    style I fill:#c8e6c9
-    style J fill:#fce4ec
+    style A fill:#e1f5ff,color:#0277bd,font-weight:bold
+    style B fill:#e1f5ff,color:#0277bd,font-weight:bold
+    style C fill:#fff3e0,color:#0277bd,font-weight:bold
+    style D fill:#fff3e0,color:#0277bd,font-weight:bold
+    style E fill:#f3e5f5,color:#0277bd,font-weight:bold
+    style F fill:#f3e5f5,color:#0277bd,font-weight:bold
+    style G fill:#f3e5f5,color:#0277bd,font-weight:bold
+    style H fill:#c8e6c9,color:#0277bd,font-weight:bold
+    style I fill:#c8e6c9,color:#0277bd,font-weight:bold
+    style J fill:#fce4ec,color:#0277bd,font-weight:bold
 ```
 
 ### Step-by-Step Explanation
