@@ -115,7 +115,7 @@ print(response['answer'])
 
 ## � Video Demo
 
-Watch the demo: [https://youtu.be/lZYLXFzfzCc?si=XJg3sP4bEUS74vNT](https://youtu.be/lZYLXFzfzCc?si=XJg3sP4bEUS74vNT)
+Watch the demo: [https://youtu.be/MrQ79ooAkZ8](https://youtu.be/MrQ79ooAkZ8)
 
 ## �🔧 Troubleshooting
 
